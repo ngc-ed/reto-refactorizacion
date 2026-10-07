@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./.venv/**)",
+      "Read(./**/__pycache__/**)",
+      "Read(./.pytest_cache/**)",
+      "Read(./.ruff_cache/**)",
+      "Read(./docs/evidencia/**)",
+      "Read(./.env)",
+      "Read(./.env.*)",
+
+      "Edit(./tests/conftest.py)",
+      "Edit(./tests/test_gestor.py)",
+      "Edit(./tests/test_almacen.py)",
+      "Edit(./tests/test_reportes.py)",
+      "Edit(./pyproject.toml)",
+
+      "Edit(./CLAUDE.md)",
+      "Edit(./.claude/**)",
+      "Bash(git push:*)"
+    ]
+  }
+}

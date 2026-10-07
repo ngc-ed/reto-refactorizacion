@@ -1,0 +1,14 @@
+# Entorno virtual y caché
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Evidencia que genero
+docs/evidencia/
+
+# Secretos
+.env
+.env.*
