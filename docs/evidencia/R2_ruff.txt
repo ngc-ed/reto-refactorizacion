@@ -1,0 +1,6 @@
+﻿3	SIM102	collapsible-if
+2	C901  	complex-structure
+1	SIM108	if-else-block-instead-of-if-exp
+1	N816  	mixed-case-variable-in-global-scope
+Found 7 errors.
+No fixes available (4 hidden fixes can be enabled with the `--unsafe-fixes` option).

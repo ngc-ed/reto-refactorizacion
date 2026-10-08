@@ -111,6 +111,38 @@ El documento se encuentra en /PLAN.md
 |---|---|---|---|---|---|---|
 | R0 | "Iniciamos con R0 del PLAN.md… muéstrame lo que cambia `--fix` y espera mi VoBo…" (completo abajo) | `ruff --fix`: quitó 4 `# -*- coding -*-`, el modo `"r"` y el `import os` sin uso; ordenó imports | Quita ruido para que los siguientes diffs muestren solo cambios reales. Es preparación, no cuenta como refactorización | ✅ 20/20 | 20 → 13 | `709409a` |
 | R1 | Continuemos con R1 del plan. Pero antes de borrar busca tanto en @src\ y @tests\ alguna referencia de calcular_descuento_viejo, exportar_txt, MODO_DEBUG y reporteViejoCSV, y muéstrame el resultado. Si alguno se usa en algún lado, detente y avísame. - Corre la caracterización "antes" - Muestra el diff de lo que se va borrando y espera el VoBo - Corre pytest, ruff, la caracterización "despues" y los diff - Dime tests antes => despues, errores ruff antes=> despues, si la caracterización salió igual y dame el mensaje del commit." | Se eliminaron `calcular_descuento_viejo`, el bloque comentado `exportar_txt`, `MODO_DEBUG` y `reporteViejoCSV` | Código que nadie llama igual hay que leerlo y mantenerlo; "por si acaso" ya lo cubre git | ✅ 20/20 | 13 → 11 | `7527ae5` |
+| R2 | Continuemos con R2 del plan... revisar las notas para el prompt completo.| `with open` en guardar/cargar; `except Exception` => ‹excepciones elegidas›; `hayArchivo` => `hay_archivo` (actualizado en `main.py`) | Antes, si `json.dump` fallaba, el archivo quedaba abierto; `except Exception` ocultaba cualquier error, no solo un JSON inválido | ✅ 20/20 | 11 => 7 | `` |
+
+### Notas
+**Prompt R2 completo.**
+```
+Continuemos con R2 del plan.
+  <tarea>
+  1. Usa with open(...) en guardar_datos y cargar_datos.
+  2. Cambia except Exception por las excepciones específicas que puede lanzar
+     json.load con un archivo corrupto.
+  3. Renombra hayArchivo a hay_archivo, con un solo return, y actualiza main.py
+     en el mismo cambio.
+     </tarea>
+
+  <antes_de_cambiar>
+  - Corre la caracterización "antes".
+  - Explícame qué excepciones puede lanzar json.load con un archivo corrupto y si OSError debe ir en el except.
+  - Para tomar en cuenta: hoy, si open() falla, el error se puede propagar
+    porque open() está fuera del try. Eso no debe cambiar.
+  </antes_de_cambiar>
+
+  <restricciones>
+  - Los mensajes "el archivo no existe" y "archivo corrupto" no cambian.
+  - No toques nada fuera de almacen.py y la llamada en main.py.
+  </restricciones>
+
+  Muéstrame el diff y espera mi VoBo. Después corre pytest, ruff, la caracterización
+  "después" y los diff; prueba además cargar un JSON corrupto antes y después
+  (debe dar False y "archivo corrupto" en los dos casos). Dame el
+  mensaje de commit.
+```
+
 
 ## 4. Variaciones de prompts e intentos fallidos
  - La primera versión de la evidencia se guardó en UTF-16 y en Github no se leía, por lo tanto se regeneró en UTF-8(commit `52cd6ed`)
@@ -120,6 +152,9 @@ El documento se encuentra en /PLAN.md
 Tome la opción de generarlo en otra ruta para seguir respetando la regla.
 Evidencia: `docs/evidencia/img/03-plan_bloqueado_docs.png`
 - **Pompt incompleto.** No pedí cuidar los tests y volví a generar el prompt integrando esa parte.
+- **El plan se quedaba corto en R2.** El PLAN.md proponía `except (ValueError, OSError)`.
+  Antes de aplicarlo le pedí a Claude explicar qué excepciones lanza `json.load`, y probó 7 casos de archivo corrupto con el código original. Encontró que un JSON con anidamiento muy profundo lanza `RecursionError`, que no es `ValueError`: con el plan tal cual, ese caso habría dejado de dar "archivo corrupto" y habría tronado el programa, sin que ningún test fallara. También confirmé que `open()` quedara fuera del `try`, para que los errores al abrir se sigan propagando como antes. 
+  Evidencia: `docs/evidencia/R2_excepciones.md`.
 
 ## 5. Evidencia
 
@@ -136,4 +171,6 @@ Evidencia: `docs/evidencia/img/03-plan_bloqueado_docs.png`
 | R0 | `docs/evidencia/R0_ruff.txt` | 13 errores (antes 20) |
 | R1 | `docs/evidencia/R1_pytest.txt` | 20 passed después de eliminar el código muerto |
 | R1 | `docs/evidencia/R1_ruff.txt` | 11 errores (antes 13): se fueron N802 y SIM115 de `reporteViejoCSV` |
-
+| R2 | `docs/evidencia/R2_pytest.txt` | 20 passed después de la persistencia segura |
+| R2 | `docs/evidencia/R2_ruff.txt` | 7 errores (antes 11): se fueron SIM115 ×2, N802 y SIM103 |
+| R2 | `docs/evidencia/R2_excepciones.md` | Los 7 casos de archivo corrupto dan el mismo resultado antes y después; `RecursionError` agregado |
