@@ -39,14 +39,14 @@ La secuencia cubre: inventario, venta con descuento del 10 % + VIP, venta con 5 
 
 Módulos planos en `src/` que se importan entre sí sin paquete (`import gestor`); `tests/conftest.py` agrega `src/` a `sys.path` y llama a `gestor.reiniciar_sistema()` antes y después de cada test.
 
-- **`gestor.py`** — lógica de negocio y **estado global del sistema**: `INVENTARIO` (dict `codigo -> {codigo, nombre, precio, stock}`), `VENTAS` (lista de dicts de venta), `contadorVentas` (último folio) y `ultimo_error`. Las funciones señalan fallo devolviendo `False`/`None` y dejando el motivo en `gestor.ultimo_error`, que `main.py` imprime.
-- **`almacen.py`** — persistencia JSON. Lee y escribe directamente el estado de `gestor` (`gestor.INVENTARIO`, `gestor.VENTAS`, `gestor.contadorVentas`). Las claves del JSON (`inventario`, `ventas`, `contador`) deben mantenerse para seguir leyendo `datos_ejemplo.json`.
+- **`gestor.py`** — lógica de negocio y **estado global del sistema**: `INVENTARIO` (dict `codigo -> {codigo, nombre, precio, stock}`), `VENTAS` (lista de dicts de venta), `contador_ventas` (último folio) y `ultimo_error`. Las funciones señalan fallo devolviendo `False`/`None` y dejando el motivo en `gestor.ultimo_error`, que `main.py` imprime.
+- **`almacen.py`** — persistencia JSON. Lee y escribe directamente el estado de `gestor` (`gestor.INVENTARIO`, `gestor.VENTAS`, `gestor.contador_ventas`). Las claves del JSON (`inventario`, `ventas`, `contador`) deben mantenerse para seguir leyendo `datos_ejemplo.json`.
 - **`reportes.py`** — reportes calculados sobre el estado de `gestor`; `reporte_inventario` y `resumen_ventas` imprimen **y** devuelven el texto.
 - **`main.py`** — menú de consola (toda la E/S con el usuario).
 
 ### Puntos delicados al refactorizar
 
-- `INVENTARIO` y `VENTAS` se mutan en sitio (`.clear()`, asignación de claves) y otros módulos los leen como `gestor.INVENTARIO`. Si se renombra `contadorVentas` o se cambia cómo se guarda el estado, actualizar también `almacen.py` y `reiniciar_sistema`.
+- `INVENTARIO` y `VENTAS` se mutan en sitio (`.clear()`, asignación de claves) y otros módulos los leen como `gestor.INVENTARIO`. Si se renombra `contador_ventas` o se cambia cómo se guarda el estado, actualizar también `almacen.py` y `reiniciar_sistema`.
 - Reglas de precio en `registrar_venta`: subtotal ≥ 1000 → 10 % de descuento; ≥ 500 → 5 %; cliente que empieza con `"VIP"` suma 2 % extra del subtotal **solo si** `subtotal - descuento > 200`; IVA 16 % sobre la base; redondeos a 2 decimales en cada campo de la venta.
 - `cotizar` duplica el cálculo de descuento/IVA pero **no** aplica el descuento VIP (no recibe cliente). Al extraer la lógica común hay que conservar esa diferencia y que `cotizar(...) == registrar_venta(...)["total"]` sin cliente.
 - `registrar_venta` debe validar todo antes de tocar el stock o el folio (un fallo no altera estado). El orden de las validaciones determina el mensaje en `ultimo_error`.
