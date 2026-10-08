@@ -115,6 +115,7 @@ El documento se encuentra en /PLAN.md
 | R3 | "Continuemos con R3 del plan...revisar las notas para el prompt completo. | `hacer_cosa` => `formatear_dinero`; constante `STOCK_MINIMO`; `sorted` en lugar de burbuja en `mas_vendidos`; f-strings en los reportes | `hacer_cosa` no decía qué hacía; el 5 estaba repetido; la burbuja reinventaba `sorted`; la concatenación era difícil de leer | ✅ 20/20 | 7 => 7 | `07374a1` |
 | R4 | "Vamos con R4 del PLAN.md... revisar las notas para el prompt completo | `contadorVentas` => `contador_ventas` en `gestor.py` y `almacen.py`; la clave JSON `"contador"` no cambia | Nombre en mixedCase en un global (N816); PEP 8 pide snake_case | ✅ 20/20 | 7 => 6 | `25b23e4` |
 | R5 | Vamos con R5 del PLAN.md: extraer... revisar notas para ver el prompt completo | Constantes de negocio; `_descuento_por_volumen` y `_total_con_iva` compartidas por `registrar_venta` y `cotizar`; regla VIP en una sola condición con `startswith` | Números mágicos y lógica duplicada entre `registrar_venta` y `cotizar`; if anidados (SIM102 ×3, SIM108, C901 de `registrar_venta`) | ✅ 20/20 | 6 => 1 | `a3d0e8b` |
+| R6 | Ver nota R6 para prompt completo | `_validar_venta` con cláusulas de guarda; `_armar_ticket`; `registrar_venta` solo orquesta; `aux`/`desc`/`temp2` → `subtotal`/`descuento`/`producto`; IVA calculado una sola vez | Función larga con if anidados (4 niveles) y responsabilidades mezcladas; nombres genéricos | ✅ 20/20 | 1 => 1 | `` |
 
 ### Notas
 **Prompt R2 completo.**
@@ -229,6 +230,32 @@ Vamos con R5 del PLAN.md: extraer las reglas de precio de src/gestor.py.
   Muéstrame el diff, confirma punto por punto cada tarea y cada restricción, y espera mi VoBo
   Después corre pytest y ruff (esperado: 20 passed y 6 => 1), y la caracterización "después".
   ```
+**Prompt RR6 Completo**
+```
+  Vamos con R6 del PLAN.md: dividir registrar_venta en src/gestor.py.
+  <tarea>
+  1. Extrae _validar_venta(codigo, cantidad) => mensaje o None, con cláusulas de guarda.
+  2. Extrae _armar_ticket(venta, hubo_descuento).
+  3. registrar_venta solo orquesta.
+  4. Pendiente de R5: aux/desc/temp2 → subtotal/descuento/producto y calcula el IVA una sola vez.
+  5. Actualiza los docstrings.
+     </tarea>
+
+  <antes_de_cambiar>
+  Corre la caracterización "antes" (sección 9) y explícame cómo evitas los riesgos (a)–(f) de la fila R6 de la sección 8.
+  </antes_de_cambiar>
+
+  <restricciones>
+  - Mismas guardas en el mismo orden y con los mismos mensajes; usa is None / == "" / <= 0,  no "if not".
+  - No mutes nada antes de validar; una venta exitosa no limpia ultimo_error
+  - Ticket idéntico carácter por carácter; la línea Descuento depende del descuento sin redondear
+  - venta conserva el orden de claves, los tipos y el strftime; el IVA conserva su orden de operaciones
+  - cotizar no cambia ni usa _validar_venta; la API pública de registrar_venta no cambia.
+  </restricciones>
+  ```
+
+  Muéstrame el diff unificado completo, confirma punto por punto y espera mi VoBo.
+  Después: pytest (20 passed), ruff (1 → 1) y la caracterización "después".
 
 ## 4. Variaciones de prompts e intentos fallidos
  - La primera versión de la evidencia se guardó en UTF-16 y en Github no se leía, por lo tanto se regeneró en UTF-8(commit `52cd6ed`)
@@ -241,6 +268,7 @@ Evidencia: `docs/evidencia/img/03-plan_bloqueado_docs.png`
 - **El plan se quedaba corto en R2.** El PLAN.md proponía `except (ValueError, OSError)`.
   Antes de aplicarlo le pedí a Claude explicar qué excepciones lanza `json.load`, y probó 7 casos de archivo corrupto con el código original. Encontró que un JSON con anidamiento muy profundo lanza `RecursionError`, que no es `ValueError`: con el plan tal cual, ese caso habría dejado de dar "archivo corrupto" y habría tronado el programa, sin que ningún test fallara. También confirmé que `open()` quedara fuera del `try`, para que los errores al abrir se sigan propagando como antes. 
   Evidencia: `docs/evidencia/R2_excepciones.md`.
+- **R6** Mi restricción "sin `if not`, usa `<= 0`" cambiaba el mensaje de error con cantidad NaN. Claude lo detectó al comparar versiones; se usó `not (cantidad > 0)` con comentario.
 
 ## 5. Evidencia
 
@@ -271,3 +299,11 @@ Evidencia: `docs/evidencia/img/03-plan_bloqueado_docs.png`
 | R5 | `docs/evidencia/R5_precios_diff.txt` | Antes y después son idénticos |
 | R5 | `docs/evidencia/R5_pytest.txt` | 20 passed después de R5 |
 | R5 | `docs/evidencia/R5_ruff.txt` | 1 error (antes 6): solo queda el C901 de `menu` |
+| R6 | `docs/evidencia/caracterizar_ventas.py` | Script de validaciones, estado tras error, claves, tipos y ticket |
+| R6 | `docs/evidencia/R6_ventas_antes.txt` | Comportamiento de validación y ticket antes de R6 |
+| R6 | `docs/evidencia/R6_ventas_despues.txt` | Los mismos casos después de R6 |
+| R6 | `docs/evidencia/R6_precios_antes.txt` | Precios y tickets con descuento antes de R6 |
+| R6 | `docs/evidencia/R6_precios_despues.txt` | Precios y tickets con descuento después de R6 |
+| R6 | `docs/evidencia/R6_caracterizacion_diff.txt` | Ventas y precios idénticos antes y después |
+| R6 | `docs/evidencia/R6_pytest.txt` | 20 passed después de R6 |
+| R6 | `docs/evidencia/R6_ruff.txt` | 1 error (sin cambio): solo queda el C901 de `menu` |

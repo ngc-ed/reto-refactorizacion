@@ -1,0 +1,36 @@
+﻿precio=499.99 cantidad=1 cliente=''
+  subtotal=499.99 descuento=0 impuesto=80.0 total=579.99 cotizar=579.99
+  TIENDA LA ESQUINA | ---------------------------- | Folio: 1 | Prod x1 | Subtotal: $499.99 | IVA: $80.0 | TOTAL: $579.99 | 
+precio=500 cantidad=1 cliente=''
+  subtotal=500 descuento=25.0 impuesto=76.0 total=551.0 cotizar=551.0
+  TIENDA LA ESQUINA | ---------------------------- | Folio: 1 | Prod x1 | Subtotal: $500 | Descuento: -$25.0 | IVA: $76.0 | TOTAL: $551.0 | 
+precio=999.99 cantidad=1 cliente=''
+  subtotal=999.99 descuento=50.0 impuesto=152.0 total=1101.99 cotizar=1101.99
+  TIENDA LA ESQUINA | ---------------------------- | Folio: 1 | Prod x1 | Subtotal: $999.99 | Descuento: -$50.0 | IVA: $152.0 | TOTAL: $1101.99 | 
+precio=1000 cantidad=1 cliente=''
+  subtotal=1000 descuento=100.0 impuesto=144.0 total=1044.0 cotizar=1044.0
+  TIENDA LA ESQUINA | ---------------------------- | Folio: 1 | Prod x1 | Subtotal: $1000 | Descuento: -$100.0 | IVA: $144.0 | TOTAL: $1044.0 | 
+precio=21.5 cantidad=25 cliente=''
+  subtotal=537.5 descuento=26.88 impuesto=81.7 total=592.33 cotizar=592.33
+  TIENDA LA ESQUINA | ---------------------------- | Folio: 1 | Prod x25 | Subtotal: $537.5 | Descuento: -$26.88 | IVA: $81.7 | TOTAL: $592.33 | 
+precio=200 cantidad=1 cliente='VIP01'
+  subtotal=200 descuento=0 impuesto=32.0 total=232.0 cotizar=232.0
+  TIENDA LA ESQUINA | ---------------------------- | Folio: 1 | Prod x1 | Subtotal: $200 | IVA: $32.0 | TOTAL: $232.0 | 
+precio=200.01 cantidad=1 cliente='VIP01'
+  subtotal=200.01 descuento=4.0 impuesto=31.36 total=227.37 cotizar=232.01
+  TIENDA LA ESQUINA | ---------------------------- | Folio: 1 | Prod x1 | Subtotal: $200.01 | Descuento: -$4.0 | IVA: $31.36 | TOTAL: $227.37 | 
+precio=300 cantidad=1 cliente='vip01'
+  subtotal=300 descuento=0 impuesto=48.0 total=348.0 cotizar=348.0
+  TIENDA LA ESQUINA | ---------------------------- | Folio: 1 | Prod x1 | Subtotal: $300 | IVA: $48.0 | TOTAL: $348.0 | 
+precio=300 cantidad=1 cliente='VI'
+  subtotal=300 descuento=0 impuesto=48.0 total=348.0 cotizar=348.0
+  TIENDA LA ESQUINA | ---------------------------- | Folio: 1 | Prod x1 | Subtotal: $300 | IVA: $48.0 | TOTAL: $348.0 | 
+precio=300 cantidad=1 cliente=None
+  subtotal=300 descuento=0 impuesto=48.0 total=348.0 cotizar=348.0
+  TIENDA LA ESQUINA | ---------------------------- | Folio: 1 | Prod x1 | Subtotal: $300 | IVA: $48.0 | TOTAL: $348.0 | 
+precio=500 cantidad=1 cliente='VIP01'
+  subtotal=500 descuento=35.0 impuesto=74.4 total=539.4 cotizar=551.0
+  TIENDA LA ESQUINA | ---------------------------- | Folio: 1 | Prod x1 | Subtotal: $500 | Descuento: -$35.0 | IVA: $74.4 | TOTAL: $539.4 | 
+precio=1000 cantidad=1 cliente='VIP01'
+  subtotal=1000 descuento=120.0 impuesto=140.8 total=1020.8 cotizar=1044.0
+  TIENDA LA ESQUINA | ---------------------------- | Folio: 1 | Prod x1 | Subtotal: $1000 | Descuento: -$120.0 | IVA: $140.8 | TOTAL: $1020.8 | 
