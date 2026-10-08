@@ -112,7 +112,8 @@ El documento se encuentra en /PLAN.md
 | R0 | "Iniciamos con R0 del PLAN.md… muéstrame lo que cambia `--fix` y espera mi VoBo…" (completo abajo) | `ruff --fix`: quitó 4 `# -*- coding -*-`, el modo `"r"` y el `import os` sin uso; ordenó imports | Quita ruido para que los siguientes diffs muestren solo cambios reales. Es preparación, no cuenta como refactorización | ✅ 20/20 | 20 → 13 | `709409a` |
 | R1 | Continuemos con R1 del plan. Pero antes de borrar busca tanto en @src\ y @tests\ alguna referencia de calcular_descuento_viejo, exportar_txt, MODO_DEBUG y reporteViejoCSV, y muéstrame el resultado. Si alguno se usa en algún lado, detente y avísame. - Corre la caracterización "antes" - Muestra el diff de lo que se va borrando y espera el VoBo - Corre pytest, ruff, la caracterización "despues" y los diff - Dime tests antes => despues, errores ruff antes=> despues, si la caracterización salió igual y dame el mensaje del commit." | Se eliminaron `calcular_descuento_viejo`, el bloque comentado `exportar_txt`, `MODO_DEBUG` y `reporteViejoCSV` | Código que nadie llama igual hay que leerlo y mantenerlo; "por si acaso" ya lo cubre git | ✅ 20/20 | 13 → 11 | `7527ae5` |
 | R2 | Continuemos con R2 del plan... revisar las notas para el prompt completo.| `with open` en guardar/cargar; `except Exception` => ‹excepciones elegidas›; `hayArchivo` => `hay_archivo` (actualizado en `main.py`) | Antes, si `json.dump` fallaba, el archivo quedaba abierto; `except Exception` ocultaba cualquier error, no solo un JSON inválido | ✅ 20/20 | 11 => 7 | `bb5b723` |
-| R3 | "Continuemos con R2 del plan...revisar las notas para el prompt completo. | `hacer_cosa` → `formatear_dinero`; constante `STOCK_MINIMO`; `sorted` en lugar de burbuja en `mas_vendidos`; f-strings en los reportes | `hacer_cosa` no decía qué hacía; el 5 estaba repetido; la burbuja reinventaba `sorted`; la concatenación era difícil de leer | ✅ 20/20 | 7 => 7 | `07374a1` |
+| R3 | "Continuemos con R3 del plan...revisar las notas para el prompt completo. | `hacer_cosa` => `formatear_dinero`; constante `STOCK_MINIMO`; `sorted` en lugar de burbuja en `mas_vendidos`; f-strings en los reportes | `hacer_cosa` no decía qué hacía; el 5 estaba repetido; la burbuja reinventaba `sorted`; la concatenación era difícil de leer | ✅ 20/20 | 7 => 7 | `07374a1` |
+| R4 | "Vamos con R4 del PLAN.md... revisar las notas para el prompt completo | `contadorVentas` => `contador_ventas` en `gestor.py` y `almacen.py`; la clave JSON `"contador"` no cambia | Nombre en mixedCase en un global (N816); PEP 8 pide snake_case | ✅ 20/20 | 7 => 6 | `` |
 
 ### Notas
 **Prompt R2 completo.**
@@ -172,6 +173,28 @@ Continuemos con R3 del plan:
   dar exactamente lo mismo. Dame el resumen y el mensaje de commit.
   ```
 
+  ***Prompt R4 completo.**
+  ```
+  Vamos con R4 del PLAN.md
+  <tarea>
+  Renombra la variable global contadorVentas a contador_ventas en gestor.py declaración, reiniciar_sistema y registrar_venta y en almacen.py guardar_datos y cargar_datos
+  </tarea>
+
+  <antes_de_cambiar>
+  - Corre la caracterización "antes".
+  - Lista todas las apariciones de contadorVentas en src/ y tests/.
+  </antes_de_cambiar>
+
+  <restricciones>
+  - La clave del JSON sigue siendo "contador"; no la cambies.
+  - Cada función que asigna la variable debe declarar `global contador_ventas`.
+  - No renombres nada más en este paso.
+  </restricciones>
+
+  Muéstrame el diff y espera mi VoBo. Después corre pytest, ruff, la caracterización "después" y los diff, y confirma que no queda ninguna referencia a contadorVentas en src/.
+  Marca R4 como "Aplicado" en el PLAN.md y dame el mensaje de commit
+  ```
+
 
 ## 4. Variaciones de prompts e intentos fallidos
  - La primera versión de la evidencia se guardó en UTF-16 y en Github no se leía, por lo tanto se regeneró en UTF-8(commit `52cd6ed`)
@@ -205,3 +228,6 @@ Evidencia: `docs/evidencia/img/03-plan_bloqueado_docs.png`
 | R2 | `docs/evidencia/R2_excepciones.md` | Los 7 casos de archivo corrupto dan el mismo resultado antes y después; `RecursionError` agregado |
 | R3 | `docs/evidencia/R3_pytest.txt` | 20 passed después de simplificar los reportes |
 | R3 | `docs/evidencia/R3_ruff.txt` | 7 errores (sin cambio: refactorización de legibilidad) |
+|R4 | `docs/evidencia/R4_pytest.txt` | 20 passed después del renombre |
+| R4 | `docs/evidencia/R4_ruff.txt` | 6 errores (antes 7): se fue N816 |
+| R4 | docs/evidencia/R4_referencias.txt | No queda ningún `contadorVentas` en src/; la clave JSON `"contador"` sigue igual |
