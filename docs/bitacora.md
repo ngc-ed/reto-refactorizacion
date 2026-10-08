@@ -1,7 +1,7 @@
 # Bitácora de refactorización
 
 **Nombre:** Eduardo Daniel Sánchez Delgado
-**Matrícula:** 
+**Matrícula:** edanielsand@gmail.com 
 **Fecha:** 07/10/2026
 **Herramienta:** Claude Code (modo plan para explorar, modo manual para cambios)
 
