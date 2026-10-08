@@ -114,6 +114,7 @@ El documento se encuentra en /PLAN.md
 | R2 | Continuemos con R2 del plan... revisar las notas para el prompt completo.| `with open` en guardar/cargar; `except Exception` => ‹excepciones elegidas›; `hayArchivo` => `hay_archivo` (actualizado en `main.py`) | Antes, si `json.dump` fallaba, el archivo quedaba abierto; `except Exception` ocultaba cualquier error, no solo un JSON inválido | ✅ 20/20 | 11 => 7 | `bb5b723` |
 | R3 | "Continuemos con R3 del plan...revisar las notas para el prompt completo. | `hacer_cosa` => `formatear_dinero`; constante `STOCK_MINIMO`; `sorted` en lugar de burbuja en `mas_vendidos`; f-strings en los reportes | `hacer_cosa` no decía qué hacía; el 5 estaba repetido; la burbuja reinventaba `sorted`; la concatenación era difícil de leer | ✅ 20/20 | 7 => 7 | `07374a1` |
 | R4 | "Vamos con R4 del PLAN.md... revisar las notas para el prompt completo | `contadorVentas` => `contador_ventas` en `gestor.py` y `almacen.py`; la clave JSON `"contador"` no cambia | Nombre en mixedCase en un global (N816); PEP 8 pide snake_case | ✅ 20/20 | 7 => 6 | `25b23e4` |
+| R5 | Vamos con R5 del PLAN.md: extraer... revisar notas para ver el prompt completo | Constantes de negocio; `_descuento_por_volumen` y `_total_con_iva` compartidas por `registrar_venta` y `cotizar`; regla VIP en una sola condición con `startswith` | Números mágicos y lógica duplicada entre `registrar_venta` y `cotizar`; if anidados (SIM102 ×3, SIM108, C901 de `registrar_venta`) | ✅ 20/20 | 6 => 1 | `` |
 
 ### Notas
 **Prompt R2 completo.**
@@ -195,6 +196,39 @@ Continuemos con R3 del plan:
   Marca R4 como "Aplicado" en el PLAN.md y dame el mensaje de commit
   ```
 
+**Prompt R5 Completo**
+```
+Vamos con R5 del PLAN.md: extraer las reglas de precio de src/gestor.py.
+
+  <tarea>
+  1. Crea constantes de negocio a nivel de módulo para los umbrales y tasas: descuento alto
+     (1000 → 10 %), descuento medio (500 → 5 %), prefijo VIP "VIP", monto mínimo VIP (200),
+     tasa VIP (2 %) e IVA (16 %).
+  2. Extrae _descuento_por_volumen(subtotal) y _total_con_iva(base), y úsalas tanto en
+     registrar_venta como en cotizar.
+  3. Reemplaza los if anidados de la regla VIP por una sola condición:
+     cliente and cliente.startswith(PREFIJO_VIP) and subtotal - descuento > MONTO_MINIMO_VIP
+  4. Agrega docstrings a las funciones nuevas.
+  </tarea>
+
+  <antes_de_cambiar>
+  - Corre la caracterización "antes" de la sección 9 del PLAN.md
+  - Revisa la fila R5 de la sección 8 y explícame cómo tu diff evita cada riesgo (a) a (f)
+  </antes_de_cambiar>
+
+  <restricciones>
+  - Los umbrales conservan exactamente sus operadores: >= 1000, >= 500 y > 200 (VIP)
+  - El 2 % VIP se calcula sobre el subtotal, y la condición de los 200 se evalúa con el descuento por volumen ANTES de sumar el VIP
+  - El IVA conserva el orden de operaciones: impuesto = base * TASA_IVA y total = round(base + impuesto, 2). Prohibido base * 1.16
+  - Cuando no hay descuento, _descuento_por_volumen devuelve el entero 0, no 0.0
+  - cotizar mantiene su firma cotizar(codigo, cantidad) y NO aplica VIP
+  - No toques la validación, el ticket ni el registro de la venta (eso es R6)
+  - No cambies el texto de ningún mensaje ni las claves del dict venta
+  </restricciones>
+
+  Muéstrame el diff, confirma punto por punto cada tarea y cada restricción, y espera mi VoBo
+  Después corre pytest y ruff (esperado: 20 passed y 6 => 1), y la caracterización "después".
+  ```
 
 ## 4. Variaciones de prompts e intentos fallidos
  - La primera versión de la evidencia se guardó en UTF-16 y en Github no se leía, por lo tanto se regeneró en UTF-8(commit `52cd6ed`)
@@ -231,3 +265,9 @@ Evidencia: `docs/evidencia/img/03-plan_bloqueado_docs.png`
 |R4 | `docs/evidencia/R4_pytest.txt` | 20 passed después del renombre |
 | R4 | `docs/evidencia/R4_ruff.txt` | 6 errores (antes 7): se fue N816 |
 | R4 | docs/evidencia/R4_referencias.txt | No queda ningún `contadorVentas` en src/; la clave JSON `"contador"` sigue igual |
+| R5 | `docs/evidencia/caracterizar_precios.py` | Script con 12 casos límite de descuentos, VIP e IVA |
+| R5 | `docs/evidencia/R5_precios_antes.txt` | Precios, descuentos, IVA y tickets antes de R5 |
+| R5 | `docs/evidencia/R5_precios_despues.txt` | Los mismos casos después de R5 |
+| R5 | `docs/evidencia/R5_precios_diff.txt` | Antes y después son idénticos |
+| R5 | `docs/evidencia/R5_pytest.txt` | 20 passed después de R5 |
+| R5 | `docs/evidencia/R5_ruff.txt` | 1 error (antes 6): solo queda el C901 de `menu` |

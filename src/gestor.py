@@ -14,6 +14,18 @@ VENTAS = []
 contador_ventas = 0
 ultimo_error = ""
 
+# ---------------------------------------------------------------
+# Reglas de precio
+# ---------------------------------------------------------------
+UMBRAL_DESCUENTO_ALTO = 1000
+TASA_DESCUENTO_ALTO = 0.10
+UMBRAL_DESCUENTO_MEDIO = 500
+TASA_DESCUENTO_MEDIO = 0.05
+PREFIJO_VIP = "VIP"
+MONTO_MINIMO_VIP = 200
+TASA_VIP = 0.02
+TASA_IVA = 0.16
+
 
 def reiniciar_sistema():
     """Borra todo el estado del sistema (inventario, ventas y folios)."""
@@ -81,6 +93,21 @@ def buscarProducto(texto):
     return temp2
 
 
+def _descuento_por_volumen(subtotal):
+    """Calcula el descuento por volumen de compra; 0 si no aplica."""
+    if subtotal >= UMBRAL_DESCUENTO_ALTO:
+        return subtotal * TASA_DESCUENTO_ALTO
+    if subtotal >= UMBRAL_DESCUENTO_MEDIO:
+        return subtotal * TASA_DESCUENTO_MEDIO
+    return 0
+
+
+def _total_con_iva(base):
+    """Suma el IVA a la base y redondea el total a 2 decimales."""
+    impuesto = base * TASA_IVA
+    return round(base + impuesto, 2)
+
+
 def registrar_venta(codigo, cantidad, cliente=""):
     """Registra una venta completa.
 
@@ -111,24 +138,14 @@ def registrar_venta(codigo, cantidad, cliente=""):
     # calculo del subtotal
     aux = temp2["precio"] * cantidad
     # descuentos por volumen de compra
-    desc = 0
-    if aux >= 1000:
-        desc = aux * 0.10
-    else:
-        if aux >= 500:
-            desc = aux * 0.05
-        else:
-            desc = 0
-    # los clientes cuyo codigo empieza con VIP tienen un extra,
-    # pero solo si su compra (ya con descuento) pasa de cierto monto
-    if cliente != "" and cliente is not None:
-        if len(cliente) >= 3:
-            if cliente[0:3] == "VIP":
-                if aux - desc > 200:
-                    desc = desc + aux * 0.02
+    desc = _descuento_por_volumen(aux)
+    # los clientes cuyo codigo empieza con VIP tienen un extra sobre el
+    # subtotal, pero solo si su compra (ya con descuento) pasa de cierto monto
+    if cliente and cliente.startswith(PREFIJO_VIP) and aux - desc > MONTO_MINIMO_VIP:
+        desc = desc + aux * TASA_VIP
     base = aux - desc
-    impuesto = base * 0.16
-    total = round(base + impuesto, 2)
+    impuesto = base * TASA_IVA
+    total = _total_con_iva(base)
     # descontar del inventario
     temp2["stock"] = temp2["stock"] - cantidad
     contador_ventas = contador_ventas + 1
@@ -169,12 +186,5 @@ def cotizar(codigo, cantidad):
         ultimo_error = "cantidad invalida"
         return None
     aux = INVENTARIO[codigo]["precio"] * cantidad
-    desc = 0
-    if aux >= 1000:
-        desc = aux * 0.10
-    else:
-        if aux >= 500:
-            desc = aux * 0.05
-    base = aux - desc
-    total = base + base * 0.16
-    return round(total, 2)
+    base = aux - _descuento_por_volumen(aux)
+    return _total_con_iva(base)
