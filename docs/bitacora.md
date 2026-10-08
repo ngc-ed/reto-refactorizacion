@@ -109,7 +109,7 @@ El documento se encuentra en /PLAN.md
 
 | # | Prompt usado | Cambio realizado | Justificación | Tests OK | Ruff | Commit |
 |---|---|---|---|---|---|---|
-| R0 | "Iniciamos con R0 del PLAN.md… muéstrame lo que cambia `--fix` y espera mi VoBo…" (completo abajo) | `ruff --fix`: quitó 4 `# -*- coding -*-`, el modo `"r"` y el `import os` sin uso; ordenó imports | Quita ruido para que los siguientes diffs muestren solo cambios reales. Es preparación, no cuenta como refactorización | ✅ 20/20 | 20 → 13 | `` |
+| R0 | "Iniciamos con R0 del PLAN.md… muéstrame lo que cambia `--fix` y espera mi VoBo…" (completo abajo) | `ruff --fix`: quitó 4 `# -*- coding -*-`, el modo `"r"` y el `import os` sin uso; ordenó imports | Quita ruido para que los siguientes diffs muestren solo cambios reales. Es preparación, no cuenta como refactorización | ✅ 20/20 | 20 → 13 | `709409a` |
 
 
 ## 4. Variaciones de prompts e intentos fallidos
@@ -132,4 +132,6 @@ Evidencia: `docs/evidencia/img/03-plan_bloqueado_docs.png`
 | 1 | `docs/evidencia/img/02-revision_de_configuracion_claude.PNG` | Tabla de hallazgos |
 | 2 | `PLAN.md` | Plan de refactorización y explicación del proyecto  |
 | 2 | `docs/evidencia/img/03-plan_bloqueado_docs.png` | Claude respeta la configuración |
+| R0 | `docs/evidencia/R0_pytest.txt` | 20 passed después de R0 |
+| R0 | `docs/evidencia/R0_ruff.txt` | 13 errores (antes 20) |
 
