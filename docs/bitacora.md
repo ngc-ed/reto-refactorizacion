@@ -33,7 +33,6 @@ Eres un ingeniero senior que configura proyectos en Python para trabajar con Cla
 
 Me realizo algunas observaciones y rechace 3 de ellas, mejorando mucho la configuración.
 
-
 ## 2. Exploración
 ## 3. Refactorizaciones
 
@@ -42,5 +41,14 @@ Me realizo algunas observaciones y rechace 3 de ellas, mejorando mucho la config
 
 ## 4. Variaciones de prompts e intentos fallidos
  - Tropiezo: La primera versión de la evidencia se guardó en UTF-16 y en Github no se leía, por lo tanto se regeneró en UTF-8(commit `52cd6ed`)
+ 
 ## 5. Evidencia
+
+| Paso | Archivo | Qué demuestra |
+|---|---|---|
+| 0 | `docs/evidencia/00_pytest_inicial.txt` | Línea base: 20 passed |
+| 0 | `docs/evidencia/00_ruff_inicial.txt` | Línea base: 20 errores |
+| 1 | `docs/evidencia/img/01-configuracion.PNG` | ‹qué muestra› |
+| 1 | `docs/evidencia/01-plan_configuracion_.md` | Informe de la revisión |
+| 1 | `docs/evidencia/img/02-revision_de_configuracion_claude.PNG` | Tabla de hallazgos |
 
