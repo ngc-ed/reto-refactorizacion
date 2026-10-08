@@ -72,7 +72,7 @@ Verificación obligatoria en cada paso: se cumplen los criterios de la sección 
 
 | # | refactorización | cambios | smells | ruff (antes → después) | riesgo | commit propuesto | estado |
 |---|---|---|---|---|---|---|---|
-| R0 | Arreglos automáticos de ruff (preparatorio, no cuenta como refactorización) | `ruff check src --fix`: quita `coding`, el modo `"r"`, el `import os` sin uso y ordena imports | 15, 19, 22, 23 | 20 → 13 | Nulo | `style(src): aplica arreglos automáticos de ruff` | Pendiente |
+| R0 | Arreglos automáticos de ruff (preparatorio, no cuenta como refactorización) | `ruff check src --fix`: quita `coding`, el modo `"r"`, el `import os` sin uso y ordena imports | 15, 19, 22, 23 | 20 → 13 | Nulo | `style(src): aplica arreglos automáticos de ruff` | Aplicado |
 | R1 | Eliminar código muerto | Borrar `calcular_descuento_viejo`, el bloque `exportar_txt`, `MODO_DEBUG` y `reporteViejoCSV` | 9, 10 | 13 → 11 | Bajo | `refactor(gestor): elimina código muerto y variables sin uso` | Pendiente |
 | R2 | Persistencia segura en `almacen` | `with open(...)` en guardar/cargar; `except (ValueError, OSError)` en lugar de `Exception` (JSON inválido y errores de lectura siguen dando "archivo corrupto"); `hayArchivo` → `hay_archivo` que devuelve `os.path.exists(ruta)` y se actualiza `main.py` en el mismo commit | 13, 14, 16 | 11 → 7 | Bajo | `refactor(almacen): usa context managers y simplifica hay_archivo` | Pendiente |
 | R3 | Claridad en `reportes` | `hacer_cosa` → `formatear_dinero`; constante `STOCK_MINIMO = 5`; `mas_vendidos` con `sorted(..., key=..., reverse=True)` (estable, conserva el orden de los empates); `resumen_ventas` construye el texto con f-strings sin cambiar el formato | 6 (parcial), 11, 17, 20 | 7 → 7 | Bajo-medio | `refactor(reportes): renombra helpers y reemplaza burbuja por sorted` | Pendiente |
@@ -188,11 +188,3 @@ caract despues
 diff "$TMP/caract_antes/salida.txt"   "$TMP/caract_despues/salida.txt"
 diff "$TMP/caract_antes/guardado.txt" "$TMP/caract_despues/guardado.txt"
 ```
-
-## 10. Registro de refactorizaciones aplicadas
-
-Cada refactorización se documenta aquí al aplicarse (y su estado se actualiza en la tabla de la sección 4).
-
-| # | fecha | cambios realizados | pytest | ruff (errores) | caracterización | commit |
-|---|---|---|---|---|---|---|
-| — | — | Ninguna aplicada todavía | 20 passed | 20 | — | — |

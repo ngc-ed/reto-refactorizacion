@@ -109,6 +109,8 @@ El documento se encuentra en /PLAN.md
 
 | # | Prompt usado | Cambio realizado | Justificación | Tests OK | Ruff | Commit |
 |---|---|---|---|---|---|---|
+| R0 | "Iniciamos con R0 del PLAN.md… muéstrame lo que cambia `--fix` y espera mi VoBo…" (completo abajo) | `ruff --fix`: quitó 4 `# -*- coding -*-`, el modo `"r"` y el `import os` sin uso; ordenó imports | Quita ruido para que los siguientes diffs muestren solo cambios reales. Es preparación, no cuenta como refactorización | ✅ 20/20 | 20 → 13 | `` |
+
 
 ## 4. Variaciones de prompts e intentos fallidos
  - La primera versión de la evidencia se guardó en UTF-16 y en Github no se leía, por lo tanto se regeneró en UTF-8(commit `52cd6ed`)
