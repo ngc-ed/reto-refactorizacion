@@ -116,6 +116,7 @@ El documento se encuentra en /PLAN.md
 | R4 | "Vamos con R4 del PLAN.md... revisar las notas para el prompt completo | `contadorVentas` => `contador_ventas` en `gestor.py` y `almacen.py`; la clave JSON `"contador"` no cambia | Nombre en mixedCase en un global (N816); PEP 8 pide snake_case | ✅ 20/20 | 7 => 6 | `25b23e4` |
 | R5 | Vamos con R5 del PLAN.md: extraer... revisar notas para ver el prompt completo | Constantes de negocio; `_descuento_por_volumen` y `_total_con_iva` compartidas por `registrar_venta` y `cotizar`; regla VIP en una sola condición con `startswith` | Números mágicos y lógica duplicada entre `registrar_venta` y `cotizar`; if anidados (SIM102 ×3, SIM108, C901 de `registrar_venta`) | ✅ 20/20 | 6 => 1 | `a3d0e8b` |
 | R6 | Ver nota R6 para prompt completo | `_validar_venta` con cláusulas de guarda; `_armar_ticket`; `registrar_venta` solo orquesta; `aux`/`desc`/`temp2` → `subtotal`/`descuento`/`producto`; IVA calculado una sola vez | Función larga con if anidados (4 niveles) y responsabilidades mezcladas; nombres genéricos | ✅ 20/20 | 1 => 1 | `b3c7825` |
+| R7 | Ver nota de R7 para el prompt completo| Una función por opción y dict `OPCIONES`; `menu()` solo hace el ciclo; nombres descriptivos y docstrings en `main.py` | if/elif de 8 ramas (C901 17 > 10) y variables de una letra | ✅ 20/20 | 1 => 0 | `8f75d9f` |
 
 ### Notas
 **Prompt R2 completo.**
@@ -333,3 +334,9 @@ Evidencia: `docs/evidencia/img/03-plan_bloqueado_docs.png`
 | R6 | `docs/evidencia/R6_caracterizacion_diff.txt` | Ventas y precios idénticos antes y después |
 | R6 | `docs/evidencia/R6_pytest.txt` | 20 passed después de R6 |
 | R6 | `docs/evidencia/R6_ruff.txt` | 1 error (sin cambio): solo queda el C901 de `menu` |
+| R7 | `docs/evidencia/caracterizar_menu.py` | Script que ejecuta el menú con 3 escenarios en carpeta temporal |
+| R7 | `docs/evidencia/R7_menu_antes.txt` | Salida del menú y JSON guardado antes de R7 |
+| R7 | `docs/evidencia/R7_menu_despues.txt` | Lo mismo después de R7 |
+| R7 | `docs/evidencia/R7_menu_diff.txt` | Antes y después son idénticos |
+| R7 | `docs/evidencia/R7_pytest.txt` | 20 passed después de R7 |
+| R7 | `docs/evidencia/R7_ruff.txt` | All checks passed! (antes 1): ruff en 0 |
