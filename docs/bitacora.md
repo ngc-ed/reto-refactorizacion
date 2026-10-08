@@ -110,7 +110,7 @@ El documento se encuentra en /PLAN.md
 | # | Prompt usado | Cambio realizado | Justificación | Tests OK | Ruff | Commit |
 |---|---|---|---|---|---|---|
 | R0 | "Iniciamos con R0 del PLAN.md… muéstrame lo que cambia `--fix` y espera mi VoBo…" (completo abajo) | `ruff --fix`: quitó 4 `# -*- coding -*-`, el modo `"r"` y el `import os` sin uso; ordenó imports | Quita ruido para que los siguientes diffs muestren solo cambios reales. Es preparación, no cuenta como refactorización | ✅ 20/20 | 20 → 13 | `709409a` |
-
+| R1 | Continuemos con R1 del plan. Pero antes de borrar busca tanto en @src\ y @tests\ alguna referencia de calcular_descuento_viejo, exportar_txt, MODO_DEBUG y reporteViejoCSV, y muéstrame el resultado. Si alguno se usa en algún lado, detente y avísame. - Corre la caracterización "antes" - Muestra el diff de lo que se va borrando y espera el VoBo - Corre pytest, ruff, la caracterización "despues" y los diff - Dime tests antes => despues, errores ruff antes=> despues, si la caracterización salió igual y dame el mensaje del commit." | Se eliminaron `calcular_descuento_viejo`, el bloque comentado `exportar_txt`, `MODO_DEBUG` y `reporteViejoCSV` | Código que nadie llama igual hay que leerlo y mantenerlo; "por si acaso" ya lo cubre git | ✅ 20/20 | 13 → 11 | `` |
 
 ## 4. Variaciones de prompts e intentos fallidos
  - La primera versión de la evidencia se guardó en UTF-16 y en Github no se leía, por lo tanto se regeneró en UTF-8(commit `52cd6ed`)
@@ -134,4 +134,6 @@ Evidencia: `docs/evidencia/img/03-plan_bloqueado_docs.png`
 | 2 | `docs/evidencia/img/03-plan_bloqueado_docs.png` | Claude respeta la configuración |
 | R0 | `docs/evidencia/R0_pytest.txt` | 20 passed después de R0 |
 | R0 | `docs/evidencia/R0_ruff.txt` | 13 errores (antes 20) |
+| R1 | `docs/evidencia/R1_pytest.txt` | 20 passed después de eliminar el código muerto |
+| R1 | `docs/evidencia/R1_ruff.txt` | 11 errores (antes 13): se fueron N802 y SIM115 de `reporteViejoCSV` |
 
