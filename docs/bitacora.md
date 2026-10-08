@@ -112,6 +112,7 @@ El documento se encuentra en /PLAN.md
 | R0 | "Iniciamos con R0 del PLAN.md… muéstrame lo que cambia `--fix` y espera mi VoBo…" (completo abajo) | `ruff --fix`: quitó 4 `# -*- coding -*-`, el modo `"r"` y el `import os` sin uso; ordenó imports | Quita ruido para que los siguientes diffs muestren solo cambios reales. Es preparación, no cuenta como refactorización | ✅ 20/20 | 20 → 13 | `709409a` |
 | R1 | Continuemos con R1 del plan. Pero antes de borrar busca tanto en @src\ y @tests\ alguna referencia de calcular_descuento_viejo, exportar_txt, MODO_DEBUG y reporteViejoCSV, y muéstrame el resultado. Si alguno se usa en algún lado, detente y avísame. - Corre la caracterización "antes" - Muestra el diff de lo que se va borrando y espera el VoBo - Corre pytest, ruff, la caracterización "despues" y los diff - Dime tests antes => despues, errores ruff antes=> despues, si la caracterización salió igual y dame el mensaje del commit." | Se eliminaron `calcular_descuento_viejo`, el bloque comentado `exportar_txt`, `MODO_DEBUG` y `reporteViejoCSV` | Código que nadie llama igual hay que leerlo y mantenerlo; "por si acaso" ya lo cubre git | ✅ 20/20 | 13 → 11 | `7527ae5` |
 | R2 | Continuemos con R2 del plan... revisar las notas para el prompt completo.| `with open` en guardar/cargar; `except Exception` => ‹excepciones elegidas›; `hayArchivo` => `hay_archivo` (actualizado en `main.py`) | Antes, si `json.dump` fallaba, el archivo quedaba abierto; `except Exception` ocultaba cualquier error, no solo un JSON inválido | ✅ 20/20 | 11 => 7 | `bb5b723` |
+| R3 | "Continuemos con R2 del plan...revisar las notas para el prompt completo. | `hacer_cosa` → `formatear_dinero`; constante `STOCK_MINIMO`; `sorted` en lugar de burbuja en `mas_vendidos`; f-strings en los reportes | `hacer_cosa` no decía qué hacía; el 5 estaba repetido; la burbuja reinventaba `sorted`; la concatenación era difícil de leer | ✅ 20/20 | 7 => 7 | `07374a1` |
 
 ### Notas
 **Prompt R2 completo.**
@@ -142,6 +143,34 @@ Continuemos con R2 del plan.
   (debe dar False y "archivo corrupto" en los dos casos). Dame el
   mensaje de commit.
 ```
+**Prompt R3 Completo.**
+```
+Continuemos con R3 del plan:
+  Vamos con R3 del PLAN.md: claridad en reportes.py.
+
+  <tarea>
+  1. Renombra hacer_cosa a formatear_dinero.
+  2. Extrae la constante STOCK_MINIMO = 5 y úsala en productos_stock_bajo y reporte_inventario.
+  3. Reemplaza el ordenamiento de burbuja de mas_vendidos por sorted
+  4. Construye el texto de resumen_ventas y reporte_inventario con f-strings
+  </tarea>
+
+  <antes_de_cambiar>
+  - Corre la caracterización "antes"
+  - Prueba mas_vendidos con el código actual en estos casos y guarda los resultados:
+    empate de unidades, n=0, n=1, n=-1, n mayor que el número de productos y sin ventas.
+  </antes_de_cambiar>
+
+  <restricciones>
+  - formatear_dinero debe seguir produciendo "$" + str(round(v, 2)) (ej. $210.0, no $210.00)
+  - No uses Counter.most_common(n), debe seguir siendo un slice [:n]
+  - reporte_inventario y resumen_ventas siguen imprimiendo Y regresando el texto.
+  - No toques gestor.py, almacen.py ni main.py.
+  </restricciones>
+
+  Muéstrame el diff y espera el VoBo, después corre pytest, ruff, la caracterización "después", los diff y repite las pruebas de mas_vendidos: deben
+  dar exactamente lo mismo. Dame el resumen y el mensaje de commit.
+  ```
 
 
 ## 4. Variaciones de prompts e intentos fallidos
@@ -174,3 +203,5 @@ Evidencia: `docs/evidencia/img/03-plan_bloqueado_docs.png`
 | R2 | `docs/evidencia/R2_pytest.txt` | 20 passed después de la persistencia segura |
 | R2 | `docs/evidencia/R2_ruff.txt` | 7 errores (antes 11): se fueron SIM115 ×2, N802 y SIM103 |
 | R2 | `docs/evidencia/R2_excepciones.md` | Los 7 casos de archivo corrupto dan el mismo resultado antes y después; `RecursionError` agregado |
+| R3 | `docs/evidencia/R3_pytest.txt` | 20 passed después de simplificar los reportes |
+| R3 | `docs/evidencia/R3_ruff.txt` | 7 errores (sin cambio: refactorización de legibilidad) |
