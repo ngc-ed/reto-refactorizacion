@@ -34,21 +34,100 @@ Eres un ingeniero senior que configura proyectos en Python para trabajar con Cla
 Me realizo algunas observaciones y rechace 3 de ellas, mejorando mucho la configuración.
 
 ## 2. Exploración
+En modo plan, pedí a Claude que explicara el proyecto identificando los smells y armará un plan, todo en un solo prompt
+
+### Prompt 1:
+```
+Antes de iniciar con la refactorización, quiero que expliques el proyecto, dandome un mapa de @src\, en dónde expliques que hace cada archivo y sus funciones.
+  Respondeme en una tabla:
+  archivo|responsabilidad|funciones|dependencias
+  También explicame en otra tabla el flujo de una venta desde su inicio hasta su fin.
+  Para documentar los code smells, genera una tabla en dónde indiques por smell:
+  - Archivo y función
+  - Tipo de smell
+  - Descripción del problema
+  - Regla del ruff que lo detecto
+  - Prioridad
+
+  Para este plan, genera un archivo de tipo markdown llamado PLAN.md en @docs\
+
+  Criterios de aceptación
+  Con el diagnostico, genera un plan de refactorización de por lo menos 5 refactorizaciones, iniciando de menor a mayor riesgo, cada refactorización debe ser un commit.
+  Se debe de documentar cada refactorización y aplicarla en el documento PLAN.md
+```
+
+Problema: Pedí que guardará el plan en `docs/PLAN.md`, pero `docs` está protegido por la configuración, Claude se detuvo y propuso cómo crearlo(ver sección 4).
+Además, olvidé agregar que cuidará los test así que modifique el prompt y quedó de la siguiente manera:
+### Prompt final
+```
+Antes de iniciar con la refactorización, quiero que expliques el proyecto, dándome un mapa de @src\, en dónde expliques qué hace cada archivo y sus funciones.
+Respóndeme en una tabla:
+archivo | responsabilidad | funciones | dependencias
+También explícame en otra tabla el flujo de una venta desde su inicio hasta su fin.
+Para documentar los code smells, genera una tabla en donde indiques por smell:
+- Archivo y función
+- Tipo de smell
+- Descripción del problema
+- Regla de ruff que lo detecta
+- Prioridad
+
+Cuidado de los tests:
+Lee @tests\ y, sin suponer nada, genera una tabla con:
+- Qué comportamientos protegen los tests (test | qué verifica)
+- Qué comportamientos observables NO tienen ningún test (textos que se imprimen,
+  ticket, redondeos, casos límite, orden de resultados, manejo de errores, menú)
+- Qué refactorizaciones de las que propongas podrían cambiar el comportamiento sin que
+  ningún test falle, y qué tendría que revisar yo a mano en el diff para detectarlo.
+
+Para este plan, genera un archivo de tipo markdown llamado PLAN.md en la raíz del
+proyecto (docs\ está protegido).
+
+Criterios de aceptación:
+Con el diagnóstico, genera un plan de refactorización de por lo menos 5
+refactorizaciones, iniciando de menor a mayor riesgo; cada refactorización debe ser
+un commit. Para cada una documenta en PLAN.md:
+- objetivo y archivos que toca
+- smells que elimina y reglas de ruff que deberían desaparecer
+- riesgos (de la tabla de cuidado de los tests)
+- criterios de aceptación verificables
+- mensaje de commit propuesto (Conventional Commits, máximo 100 caracteres)
+
+Criterios del plan:
+- pytest 20/20 en verde después de cada refactorización
+- los errores de ruff nunca aumentan y quedan en 0 al final
+- tests\ y pyproject.toml sin cambios
+- comportamiento observable idéntico
+
+Restricción: no modifiques ningún archivo de src\ ni tests\; solo analiza, reporta y
+genera PLAN.md.
+```
+
+### Resultado
+El documento se encuentra en /PLAN.md
+
 ## 3. Refactorizaciones
 
 | # | Prompt usado | Cambio realizado | Justificación | Tests OK | Ruff | Commit |
 |---|---|---|---|---|---|---|
 
 ## 4. Variaciones de prompts e intentos fallidos
- - Tropiezo: La primera versión de la evidencia se guardó en UTF-16 y en Github no se leía, por lo tanto se regeneró en UTF-8(commit `52cd6ed`)
- 
+ - La primera versión de la evidencia se guardó en UTF-16 y en Github no se leía, por lo tanto se regeneró en UTF-8(commit `52cd6ed`)
+ - **PLAN.MD**: Se intentó generar el archivo en `docs/` pero estaba protegido por la configuración, por lo que se generó en la raíz del proyecto. Claude no intento saltarse la reestricción y propuso 2 opciones:
+    - Generar el plan en otra carpeta.
+    - Modificar la configuración para permitir la escritura en `docs/`
+Tome la opción de generarlo en otra ruta para seguir respetando la regla.
+Evidencia: `docs/evidencia/img/03-plan_bloqueado_docs.png`
+- **Pompt incompleto.** No pedí cuidar los tests y volví a generar el prompt integrando esa parte.
+
 ## 5. Evidencia
 
 | Paso | Archivo | Qué demuestra |
 |---|---|---|
 | 0 | `docs/evidencia/00_pytest_inicial.txt` | Línea base: 20 passed |
 | 0 | `docs/evidencia/00_ruff_inicial.txt` | Línea base: 20 errores |
-| 1 | `docs/evidencia/img/01-configuracion.PNG` | ‹qué muestra› |
+| 1 | `docs/evidencia/img/01-configuracion.PNG` |Prompt para la revisión de la configuración |
 | 1 | `docs/evidencia/01-plan_configuracion_.md` | Informe de la revisión |
 | 1 | `docs/evidencia/img/02-revision_de_configuracion_claude.PNG` | Tabla de hallazgos |
+| 2 | `PLAN.md` | Plan de refactorización y explicación del proyecto  |
+| 2 | `docs/evidencia/img/03-plan_bloqueado_docs.png` | Claude respeta la configuración |
 
