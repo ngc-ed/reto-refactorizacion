@@ -7,15 +7,33 @@ Reto de **refactorización asistida por IA**: una app de consola en Python 3.10+
 ## Reglas obligatorias
 
 - **No modificar nada en `tests/` ni `pyproject.toml`.** Si un test falla, el error está en el cambio a `src/`, nunca en el test ni en la configuración de ruff.
-- Después de **cada** refactorización correr `pytest` y `ruff check src`; ambos deben pasar antes de pasar a la siguiente.
-- `agregarProducto` y `buscarProducto` conservan su nombre (los usan los tests; están en `ignore-names` de ruff). El resto de la API usada por los tests también debe mantener nombre y firma: `gestor.INVENTARIO`, `gestor.VENTAS`, `gestor.reiniciar_sistema`, `gestor.actualizar_stock`, `gestor.eliminar_producto`, `gestor.registrar_venta`, `gestor.cotizar`, `almacen.guardar_datos`, `almacen.cargar_datos`, `reportes.mas_vendidos`, `reportes.productos_stock_bajo`, `reportes.reporte_inventario`, `reportes.total_vendido`.
+- Después de **cada** refactorización: `pytest` siempre 20/20 en verde y el número de errores de `ruff check src` **nunca aumenta** (línea base: 20). Al final del PR, ruff debe quedar en 0.
+- `agregarProducto` y `buscarProducto` conservan su nombre (los usan los tests; están en `ignore-names` de ruff). El resto de la API usada por los tests también debe mantener nombre, firma, valores de retorno (`False`/`None` en fallo) y mensajes de `gestor.ultimo_error`: `gestor.INVENTARIO`, `gestor.VENTAS`, `gestor.reiniciar_sistema`, `gestor.actualizar_stock`, `gestor.eliminar_producto`, `gestor.registrar_venta`, `gestor.cotizar`, `almacen.guardar_datos`, `almacen.cargar_datos`, `reportes.mas_vendidos`, `reportes.productos_stock_bajo`, `reportes.reporte_inventario`, `reportes.total_vendido`.
+- `almacen.hayArchivo` no la usan los tests pero sí `main.py`: si se renombra, actualizar `main.py` en el mismo commit.
 - Una refactorización a la vez; los cambios cosméticos aislados no cuentan como refactorización significativa.
 
-## Comandos (correr los dos después de CADA cambio, en este orden)
-- `pytest -q` → todos en verde (línea base: 20)
-- `ruff check src` → línea base: 20 errores; meta: 0
-- `ruff check src --fix` solo para lo trivial (UP009, UP015, I001, F401)
-- App: `cd src && python main.py` (lee `datos_ejemplo.json` relativo al cwd)
+## Comandos
+
+Usar siempre el Python del entorno virtual (la sesión no activa `.venv`; el `python` global es otro). Correr los dos primeros después de CADA cambio, en este orden:
+
+- `.venv/Scripts/python -m pytest -q` → todos en verde (línea base: 20)
+- `.venv/Scripts/python -m ruff check src` → línea base: 20 errores; meta: 0
+- `.venv/Scripts/python -m ruff check src --diff` y luego `--fix` solo para lo trivial (UP009, UP015, I001, F401). Esos arreglos van juntos en un commit aparte (`style(...)`), que no cuenta como refactorización.
+- **No ejecutar `ruff format`** sobre archivos completos: rompe los commits atómicos.
+- App (desde la raíz, donde está `datos_ejemplo.json`): `.venv/Scripts/python src/main.py`. La opción 8 sobrescribe `datos_ejemplo.json`, que está versionado: no commitear ese cambio; pedir al usuario que lo restaure con `git restore datos_ejemplo.json`.
+
+### Caracterización (comportamiento no cubierto por tests)
+
+Los tests no cubren `main.py`, el texto del ticket ni `resumen_ventas`. Si una refactorización los toca, comparar la salida antes y después del cambio (no usa la opción 8, así que no modifica archivos):
+
+```bash
+printf '4\n2\nA001\n6\nVIP01\n2\nA002\n16\n\n2\nA003\n9\n\n3\nB001\n12\n5\n6\n7\n4\n' \
+  | PYTHONIOENCODING=utf-8 .venv/Scripts/python src/main.py 2>/dev/null > "$TMP/caract_antes.txt"
+# ...aplicar el cambio y repetir con > "$TMP/caract_despues.txt"
+diff "$TMP/caract_antes.txt" "$TMP/caract_despues.txt"   # debe salir vacío
+```
+
+La secuencia cubre: inventario, venta con descuento del 10 % + VIP, venta con 5 %, error de stock insuficiente, cotización, resumen, más vendidos y stock bajo.
 
 ## Arquitectura
 
@@ -33,7 +51,7 @@ Módulos planos en `src/` que se importan entre sí sin paquete (`import gestor`
 - `cotizar` duplica el cálculo de descuento/IVA pero **no** aplica el descuento VIP (no recibe cliente). Al extraer la lógica común hay que conservar esa diferencia y que `cotizar(...) == registrar_venta(...)["total"]` sin cliente.
 - `registrar_venta` debe validar todo antes de tocar el stock o el folio (un fallo no altera estado). El orden de las validaciones determina el mensaje en `ultimo_error`.
 - El texto del ticket y de los reportes es comportamiento observable: mantener formato exacto (p. ej. la línea `Descuento` solo aparece si hay descuento, la marca `<-- STOCK BAJO` con stock < 5).
-- Código muerto conocido (sin llamadas): `calcular_descuento_viejo`, el bloque comentado `exportar_txt` en `gestor.py`, y `reporteViejoCSV` en `reportes.py`.
+- Código muerto conocido (sin llamadas): `calcular_descuento_viejo`, el bloque comentado `exportar_txt` en `gestor.py`, y `reporteViejoCSV` en `reportes.py`. Se puede eliminar, en un commit propio (`refactor(<módulo>): elimina código muerto ...`).
 
 ## Convenciones de Python
 - snake_case en funciones y variables, constantes de negocio en MAYÚSCULAS.
@@ -43,8 +61,10 @@ Módulos planos en `src/` que se importan entre sí sin paquete (`import gestor`
 - Límites de ruff: líneas ≤ 88 caracteres, complejidad ≤ 10.
 
 ## Ramas y commits
-- Solo se trabaja en `refactorizacion`, la entrega es en un PR de `refactorizacion` a `main`
-- Convención de commmits: `tipo(alcance): descripción`(feat, fix, refactor, test, docs). El mensaje debe de ser menos a 100 caracteres, en español.
+- Solo se trabaja en `refactorizacion`, la entrega es en un PR de `refactorizacion` a `main`.
+- Convención de commits: `tipo(alcance): descripción`, en español, con la primera línea de menos de 100 caracteres.
+  - Tipos: `feat`, `fix`, `refactor`, `style`, `test`, `docs`, `chore`.
+  - Alcances: `gestor`, `almacen`, `reportes`, `main`, `claude`.
 ```text
 Correcto:
  refactor(gestor): extrae el cálculo de descuentos a una función
@@ -53,8 +73,8 @@ Incorrecto:
  Refactoricé varias cosas del gestor
  refactor: cambios
 ```
-- Un commit por refactorización. Propon el mensaje y los commits y push los hago yo.
+- Un commit por refactorización. Propón el mensaje; los commits y el push los hago yo.
 
 ## Forma de trabajo
 - Una refactorización a la vez. Muestra el diff y espera el VoBo.
-- Sin edición de `docs/`
+- Sin edición de `docs/`.

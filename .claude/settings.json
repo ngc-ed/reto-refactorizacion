@@ -1,23 +1,81 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "permissions": {
+    "allow": [
+      "Bash(.venv/Scripts/python -m pytest:*)",
+      "Bash(.venv/Scripts/python -m ruff check:*)",
+      "Bash(python -m pytest:*)",
+      "Bash(python -m ruff check:*)",
+      "Bash(git diff:*)",
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "PowerShell(.venv/Scripts/python -m pytest:*)",
+      "PowerShell(.venv/Scripts/python -m ruff check:*)",
+      "PowerShell(git diff:*)",
+      "PowerShell(git status:*)",
+      "PowerShell(git log:*)"
+    ],
     "deny": [
       "Read(./.venv/**)",
+      "Read(./venv/**)",
       "Read(./**/__pycache__/**)",
+      "Read(./**/*.pyc)",
       "Read(./.pytest_cache/**)",
       "Read(./.ruff_cache/**)",
       "Read(./docs/evidencia/**)",
-      "Read(./.env)",
-      "Read(./.env.*)",
+      "Read(./**/.env)",
+      "Read(./**/.env.*)",
 
       "Edit(./tests/conftest.py)",
       "Edit(./tests/test_gestor.py)",
       "Edit(./tests/test_almacen.py)",
       "Edit(./tests/test_reportes.py)",
       "Edit(./pyproject.toml)",
+      "Edit(./docs/**)",
+      "Edit(./datos_ejemplo.json)",
 
       "Edit(./CLAUDE.md)",
       "Edit(./.claude/**)",
-      "Bash(git push:*)"
+
+      "Bash(git push:*)",
+      "Bash(git commit:*)",
+      "Bash(git checkout:*)",
+      "Bash(git restore:*)",
+      "Bash(git reset:*)",
+      "Bash(ruff format:*)",
+      "Bash(.venv/Scripts/python -m ruff format:*)",
+      "PowerShell(git push:*)",
+      "PowerShell(git commit:*)",
+      "PowerShell(git checkout:*)",
+      "PowerShell(git restore:*)",
+      "PowerShell(git reset:*)",
+      "PowerShell(ruff format:*)",
+      "PowerShell(.venv/Scripts/python -m ruff format:*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR/.venv/Scripts/python.exe\" \"$CLAUDE_PROJECT_DIR/.claude/hooks/proteger_archivos.py\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR/.venv/Scripts/python.exe\" \"$CLAUDE_PROJECT_DIR/.claude/hooks/verificar_cambio.py\"",
+            "timeout": 120
+          }
+        ]
+      }
     ]
   }
 }
