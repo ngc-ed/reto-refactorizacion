@@ -1,0 +1,10 @@
+﻿C901 `menu` is too complex (17 > 10)
+  --> src\main.py:20:5
+   |
+20 | def menu():
+   |     ^^^^
+21 |     print("Bienvenido al gestor de la tienda La Esquina")
+22 |     if almacen.hay_archivo(ARCHIVO):
+   |
+
+Found 1 error.

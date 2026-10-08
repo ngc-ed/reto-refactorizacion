@@ -1,0 +1,9 @@
+﻿src/almacen.py:14:    d["contador"] = gestor.contador_ventas
+src/almacen.py:40:    gestor.contador_ventas = d.get("contador", 0)
+src/gestor.py:10:# Estado global de la aplicacion (inventario, ventas y contadores)
+src/gestor.py:14:contador_ventas = 0
+src/gestor.py:20:    global contador_ventas, ultimo_error
+src/gestor.py:23:    contador_ventas = 0
+src/gestor.py:92:    global contador_ventas, ultimo_error
+src/gestor.py:134:    contador_ventas = contador_ventas + 1
+src/gestor.py:136:    venta["folio"] = contador_ventas

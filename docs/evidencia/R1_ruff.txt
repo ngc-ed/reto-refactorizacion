@@ -1,0 +1,9 @@
+﻿3	SIM102	collapsible-if
+2	C901  	complex-structure
+2	SIM115	open-file-with-context-handler
+1	SIM108	if-else-block-instead-of-if-exp
+1	N802  	invalid-function-name
+1	N816  	mixed-case-variable-in-global-scope
+1	SIM103	needless-bool
+Found 11 errors.
+No fixes available (5 hidden fixes can be enabled with the `--unsafe-fixes` option).

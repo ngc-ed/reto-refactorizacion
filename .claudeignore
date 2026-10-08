@@ -1,0 +1,22 @@
+# Documentación de lo que Claude no debe leer.
+# Claude Code no aplica este archivo: la protección real está en
+# .claude/settings.json (permissions.deny). Mantener ambos alineados.
+
+# Entorno virtual y caché
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Basura del sistema operativo
+.DS_Store
+__MACOSX/
+
+# Evidencia que genero
+docs/evidencia/
+
+# Secretos
+.env
+.env.*

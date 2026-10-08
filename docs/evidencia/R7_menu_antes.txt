@@ -1,0 +1,495 @@
+﻿===== A_con_datos_de_ejemplo (codigo de salida 0)
+Bienvenido al gestor de la tienda La Esquina
+Datos cargados de datos_ejemplo.json
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: Codigo del producto: Cantidad: Codigo de cliente (enter si no tiene): TIENDA LA ESQUINA
+----------------------------
+Folio: 1
+Café de grano 500g x2
+Subtotal: $370.0
+IVA: $59.2
+TOTAL: $429.2
+
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: Codigo del producto: Cantidad: Codigo de cliente (enter si no tiene): TIENDA LA ESQUINA
+----------------------------
+Folio: 2
+Café de grano 500g x1
+Subtotal: $185.0
+IVA: $29.6
+TOTAL: $214.6
+
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: Codigo del producto: Cantidad: Total estimado (con IVA): $716.3
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: ===== INVENTARIO =====
+A001 | Café de grano 500g | $185.0 | stock: 9
+A002 | Azúcar 1kg | $32.5 | stock: 40
+A003 | Leche entera 1L | $26.0 | stock: 3  <-- STOCK BAJO
+B001 | Galletas de avena | $45.0 | stock: 18
+B002 | Chocolate en polvo 400g | $78.9 | stock: 2  <-- STOCK BAJO
+C001 | Jabón de tocador | $21.0 | stock: 25
+Valor total del inventario: $4535.8
+
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: ===== RESUMEN DE VENTAS =====
+Folio 1: Café de grano 500g x2 = $429.2
+Folio 2: Café de grano 500g x1 = $214.6
+Numero de ventas: 2
+Total del dia: $643.8
+
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: A001 -> 3 unidades
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: OJO: Leche entera 1L solo tiene 3 unidades
+OJO: Chocolate en polvo 400g solo tiene 2 unidades
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: Datos guardados. Hasta luego.
+
+--- datos_ejemplo.json guardado (sin fechas)
+{
+  "inventario": {
+    "A001": {
+      "codigo": "A001",
+      "nombre": "Café de grano 500g",
+      "precio": 185.0,
+      "stock": 9
+    },
+    "A002": {
+      "codigo": "A002",
+      "nombre": "Azúcar 1kg",
+      "precio": 32.5,
+      "stock": 40
+    },
+    "A003": {
+      "codigo": "A003",
+      "nombre": "Leche entera 1L",
+      "precio": 26.0,
+      "stock": 3
+    },
+    "B001": {
+      "codigo": "B001",
+      "nombre": "Galletas de avena",
+      "precio": 45.0,
+      "stock": 18
+    },
+    "B002": {
+      "codigo": "B002",
+      "nombre": "Chocolate en polvo 400g",
+      "precio": 78.9,
+      "stock": 2
+    },
+    "C001": {
+      "codigo": "C001",
+      "nombre": "Jabón de tocador",
+      "precio": 21.0,
+      "stock": 25
+    }
+  },
+  "ventas": [
+    {
+      "folio": 1,
+      "codigo": "A001",
+      "nombre": "Café de grano 500g",
+      "cantidad": 2,
+      "subtotal": 370.0,
+      "descuento": 0,
+      "impuesto": 59.2,
+      "total": 429.2,
+      "cliente": "",
+      "ticket": "TIENDA LA ESQUINA\n----------------------------\nFolio: 1\nCafé de grano 500g x2\nSubtotal: $370.0\nIVA: $59.2\nTOTAL: $429.2\n"
+    },
+    {
+      "folio": 2,
+      "codigo": "A001",
+      "nombre": "Café de grano 500g",
+      "cantidad": 1,
+      "subtotal": 185.0,
+      "descuento": 0,
+      "impuesto": 29.6,
+      "total": 214.6,
+      "cliente": "VIP01",
+      "ticket": "TIENDA LA ESQUINA\n----------------------------\nFolio: 2\nCafé de grano 500g x1\nSubtotal: $185.0\nIVA: $29.6\nTOTAL: $214.6\n"
+    }
+  ],
+  "contador": 2
+}
+===== B_ampliada_sin_archivo (codigo de salida 0)
+Bienvenido al gestor de la tienda La Esquina
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: Codigo: Nombre: Precio: Eso no es un numero, intenta de nuevo.
+Precio: Stock inicial: Producto agregado.
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: Codigo: Nombre: Precio: Stock inicial: Error: el producto ya existe
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: Codigo: Nombre: Precio: Stock inicial: Producto agregado.
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: Opcion no valida.
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: Codigo del producto: Cantidad: Codigo de cliente (enter si no tiene): Error: stock insuficiente
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: Codigo del producto: Cantidad: Codigo de cliente (enter si no tiene): TIENDA LA ESQUINA
+----------------------------
+Folio: 1
+Barato x21
+Subtotal: $210.0
+Descuento: -$4.2
+IVA: $32.93
+TOTAL: $238.73
+
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: Codigo del producto: Cantidad: Codigo de cliente (enter si no tiene): TIENDA LA ESQUINA
+----------------------------
+Folio: 2
+Barato x1
+Subtotal: $10.0
+IVA: $1.6
+TOTAL: $11.6
+
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: Codigo del producto: Cantidad: Codigo de cliente (enter si no tiene): Error: codigo vacio
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: Codigo del producto: Cantidad: Error: producto no existe
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: Codigo del producto: Cantidad: Error: cantidad invalida
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: Codigo del producto: Cantidad: Total estimado (con IVA): $551.0
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: ===== INVENTARIO =====
+Z001 | Producto zeta | $0.5 | stock: 4  <-- STOCK BAJO
+Z002 | Barato | $10.0 | stock: 78
+Valor total del inventario: $782.0
+
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: Z002 -> 22 unidades
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: OJO: Producto zeta solo tiene 4 unidades
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: ===== RESUMEN DE VENTAS =====
+Folio 1: Barato x21 = $238.73
+Folio 2: Barato x1 = $11.6
+Numero de ventas: 2
+Total del dia: $250.33
+
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: Datos guardados. Hasta luego.
+
+--- datos_ejemplo.json guardado (sin fechas)
+{
+  "inventario": {
+    "Z001": {
+      "codigo": "Z001",
+      "nombre": "Producto zeta",
+      "precio": 0.5,
+      "stock": 4
+    },
+    "Z002": {
+      "codigo": "Z002",
+      "nombre": "Barato",
+      "precio": 10.0,
+      "stock": 78
+    }
+  },
+  "ventas": [
+    {
+      "folio": 1,
+      "codigo": "Z002",
+      "nombre": "Barato",
+      "cantidad": 21,
+      "subtotal": 210.0,
+      "descuento": 4.2,
+      "impuesto": 32.93,
+      "total": 238.73,
+      "cliente": "VIP1",
+      "ticket": "TIENDA LA ESQUINA\n----------------------------\nFolio: 1\nBarato x21\nSubtotal: $210.0\nDescuento: -$4.2\nIVA: $32.93\nTOTAL: $238.73\n"
+    },
+    {
+      "folio": 2,
+      "codigo": "Z002",
+      "nombre": "Barato",
+      "cantidad": 1,
+      "subtotal": 10.0,
+      "descuento": 0,
+      "impuesto": 1.6,
+      "total": 11.6,
+      "cliente": "vip",
+      "ticket": "TIENDA LA ESQUINA\n----------------------------\nFolio: 2\nBarato x1\nSubtotal: $10.0\nIVA: $1.6\nTOTAL: $11.6\n"
+    }
+  ],
+  "contador": 2
+}
+===== C_reportes_vacios (codigo de salida 0)
+Bienvenido al gestor de la tienda La Esquina
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: ===== INVENTARIO =====
+Valor total del inventario: $0
+
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: ===== RESUMEN DE VENTAS =====
+Numero de ventas: 0
+Total del dia: $0
+
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: 
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: No hay productos con stock bajo.
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: Opcion no valida.
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: Opcion no valida.
+
+1) Agregar producto
+2) Registrar venta
+3) Cotizar
+4) Reporte de inventario
+5) Resumen de ventas
+6) Mas vendidos
+7) Alertas de stock bajo
+8) Guardar y salir
+Opcion: Datos guardados. Hasta luego.
+
+--- datos_ejemplo.json guardado (sin fechas)
+{
+  "inventario": {},
+  "ventas": [],
+  "contador": 0
+}
