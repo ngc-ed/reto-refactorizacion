@@ -1,0 +1,1 @@
+﻿Sin diferencias: la salida del menú y el JSON guardado son idénticos

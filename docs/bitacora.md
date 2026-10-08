@@ -252,10 +252,36 @@ Vamos con R5 del PLAN.md: extraer las reglas de precio de src/gestor.py.
   - venta conserva el orden de claves, los tipos y el strftime; el IVA conserva su orden de operaciones
   - cotizar no cambia ni usa _validar_venta; la API pública de registrar_venta no cambia.
   </restricciones>
-  ```
-
+  
   Muéstrame el diff unificado completo, confirma punto por punto y espera mi VoBo.
-  Después: pytest (20 passed), ruff (1 → 1) y la caracterización "después".
+  Después: pytest (20 passed), ruff (1 => 1) y la caracterización "después".
+  ```
+  
+**Prompt R7 Completo**
+```
+  Vamos con R7 del PLAN.md: reemplazar el if/elif de menu() en src/main.py por un despacho.
+
+  <tarea>
+  1. Una función por opción (_opcion_agregar, _opcion_vender, …) y un dict OPCIONES; menu() solo muestra el menú, lee la opción y despacha
+  2. Nombres descriptivos (c, n, p, s, cant, cli, v, t, temp2 => nombres claros) y docstrings, incluido pedir_numero
+  </tarea>
+
+  <antes_de_cambiar>
+  Corre la caracterización "antes" (sección 9) y explícame cómo evitas cada riesgo de la fila R7 de la sección 8
+  </antes_de_cambiar>
+
+  <restricciones>
+  - Cada texto literal idéntico (menú, prompts, mensajes); mismo número y orden de input()
+  - Conserva print con coma ("Error:", msg) y las concatenaciones; no los pases a f-strings
+  - int(pedir_numero(...)) sigue truncando; pedir_numero conserva su comportamiento
+  - Solo la opción 8 guarda y sale; opción desconocida → "Opcion no valida."
+  - El mensaje "Datos cargados de" solo aparece si existe el archivo
+  - No toques gestor.py, reportes.py ni almacen.py
+  </restricciones>
+
+  Muéstrame el diff unificado completo, confirma punto por punto y espera mi VoBo
+  Después: pytest (20 passed), ruff (1 → 0, "All checks passed!") y la caracterización "después"
+  ```
 
 ## 4. Variaciones de prompts e intentos fallidos
  - La primera versión de la evidencia se guardó en UTF-16 y en Github no se leía, por lo tanto se regeneró en UTF-8(commit `52cd6ed`)
